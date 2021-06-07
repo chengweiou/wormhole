@@ -24,7 +24,7 @@ spring:
           enabled: false
       routes:
       - id: andromedaRoute
-        uri: http://127.0.0.1:3333/
+        uri: http://andromeda:8906/
         predicates:
         - Path=/wormhole/andromeda/**
         filters:
