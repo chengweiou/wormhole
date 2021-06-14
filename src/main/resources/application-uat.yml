@@ -1,10 +1,5 @@
 server:
   port: 8906
-  servlet:
-    context-path: /wormhole
-  error:
-    whitelabel:
-      enabled: false
       
 spring:
   cloud:
@@ -29,8 +24,7 @@ spring:
         - Path=/wormhole/andromeda/**
         filters:
         - RewritePath=/wormhole/andromeda/(?<RID>.*), /andromeda/$\{RID}
-  jackson:
-    default-property-inclusion: NON_NULL
+
   datasource:
     url: jdbc:postgresql://pgsql/universe?currentSchema=wormhole
     username: postgres

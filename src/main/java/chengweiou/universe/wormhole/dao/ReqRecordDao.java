@@ -57,24 +57,20 @@ public interface ReqRecordDao {
             }}.toString();
         }
 
-        public String count(@Param("searchCondition")final SearchCondition searchCondition, @Param("sample")final ReqRecord sample) {
-            return new SQL() {{
-                SELECT("count(*)"); FROM("reqRecord");
-                if (searchCondition.getK() != null) WHERE("url LIKE #{searchCondition.like.k}")
-                        .OR().WHERE("ip LIKE #{searchCondition.like.k}");
-                if (sample != null) {
-                }
-            }}.toString();
+        public String count(@Param("searchCondition") SearchCondition searchCondition, @Param("sample") ReqRecord sample) {
+            return baseFind(searchCondition, sample).SELECT("count(*)").toString();
         }
-
-        public String find(@Param("searchCondition")final SearchCondition searchCondition, @Param("sample")final ReqRecord sample) {
+        public String find(@Param("searchCondition") SearchCondition searchCondition, @Param("sample") ReqRecord sample) {
+            return baseFind(searchCondition, sample).SELECT("*").toString().concat(searchCondition.getOrderBy()).concat(searchCondition.getSqlLimit());
+        }
+        private SQL baseFind(SearchCondition searchCondition, ReqRecord sample) {
             return new SQL() {{
-                SELECT("*"); FROM("reqRecord");
+                FROM("reqRecord");
                 if (searchCondition.getK() != null) WHERE("url LIKE #{searchCondition.like.k}")
                         .OR().WHERE("ip LIKE #{searchCondition.like.k}");
                 if (sample != null) {
                 }
-            }}.toString().concat(searchCondition.getOrderBy()).concat(searchCondition.getSqlLimit());
+            }};
         }
     }
 }
