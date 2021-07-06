@@ -2,8 +2,6 @@ package chengweiou.universe.wormhole.base.handler;
 
 import java.nio.charset.StandardCharsets;
 
-import com.google.gson.Gson;
-
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -14,6 +12,7 @@ import org.springframework.web.server.ServerWebExchange;
 
 import chengweiou.universe.blackhole.model.BasicRestCode;
 import chengweiou.universe.blackhole.model.Rest;
+import chengweiou.universe.blackhole.util.GsonUtil;
 import chengweiou.universe.blackhole.util.LogUtil;
 import reactor.core.publisher.Mono;
 
@@ -27,7 +26,7 @@ public class GlobalErrorWebExceptionHandler implements ErrorWebExceptionHandler 
     Rest rest = Rest.fail(BasicRestCode.FAIL);
     String msg = (ex instanceof ResponseStatusException) ? ((ResponseStatusException) ex).getStatus().toString() + " " + ex.getMessage() : ex.getMessage();
     rest.setMessage(msg);
-    String body = new Gson().toJson(rest);
+    String body = GsonUtil.create().toJson(rest);
     LogUtil.e(msg, ex);
     DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(StandardCharsets.UTF_8));
     return exchange.getResponse().writeWith(Mono.just(buffer));

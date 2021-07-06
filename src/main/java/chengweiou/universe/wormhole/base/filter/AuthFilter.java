@@ -1,7 +1,5 @@
 package chengweiou.universe.wormhole.base.filter;
 
-import com.google.gson.Gson;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -9,6 +7,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
+import chengweiou.universe.blackhole.util.GsonUtil;
 import chengweiou.universe.blackhole.util.LogUtil;
 import chengweiou.universe.wormhole.base.jwt.Account;
 import chengweiou.universe.wormhole.base.jwt.JwtUtil;
@@ -33,9 +32,9 @@ public class AuthFilter implements GlobalFilter {
             } catch (Exception e) {
                 LogUtil.i("try to use unauth token: " + token);
             }
-            
+
             if (loginAccount != null) {
-                toBuilder.header("loginAccount", new Gson().toJson(loginAccount));
+                toBuilder.header("loginAccount", GsonUtil.create().toJson(loginAccount));
             }
         }
         ServerHttpRequest to = toBuilder.build();
