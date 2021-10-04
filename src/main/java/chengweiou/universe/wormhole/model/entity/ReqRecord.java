@@ -1,16 +1,18 @@
 package chengweiou.universe.wormhole.model.entity;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import org.springframework.beans.BeanUtils;
 
-import chengweiou.universe.blackhole.model.NotNullObj;
 import chengweiou.universe.blackhole.model.NullObj;
+import chengweiou.universe.wormhole.base.entity.DtoEntity;
+import chengweiou.universe.wormhole.base.entity.ServiceEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
-public class ReqRecord implements NotNullObj, Serializable {
-    private Long id;
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class ReqRecord extends ServiceEntity {
     private String url;
     private String ip;
     private Long duration;
@@ -18,8 +20,6 @@ public class ReqRecord implements NotNullObj, Serializable {
     private String device;
     private String browser;
     private String status;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
 
     public void fillNotRequire() {
         duration = duration!=null ? duration : 0;
@@ -29,14 +29,30 @@ public class ReqRecord implements NotNullObj, Serializable {
         status = status!=null ? status : "";
     }
 
-    public void createAt() {
-        createAt = LocalDateTime.now(ZoneId.of("UTC"));
-    }
-    public void updateAt() {
-        updateAt = LocalDateTime.now(ZoneId.of("UTC"));
-    }
-
     public static final ReqRecord NULL = new Null();
     private static class Null extends ReqRecord implements NullObj {
+    }
+    public Dto toDto() {
+        Dto result = new Dto();
+        BeanUtils.copyProperties(this, result);
+        return result;
+    }
+    @Data
+    @ToString(callSuper = true)
+    @EqualsAndHashCode(callSuper = true)
+    public static class Dto extends DtoEntity {
+        private String url;
+        private String ip;
+        private Long duration;
+        private String os;
+        private String device;
+        private String browser;
+        private String status;
+
+        public ReqRecord toBean() {
+            ReqRecord result = new ReqRecord();
+            BeanUtils.copyProperties(this, result);
+            return result;
+        }
     }
 }
