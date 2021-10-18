@@ -1,38 +1,163 @@
 services:
   wormhole:
     container_name: wormhole
-    ports: 
+    ports:
       - 60000:8906
-    volumes: 
-      - ~/Desktop/docker/universe/wormhole:/proj
+    networks:
+      - galaxy
+    volumes:
+      - ~/Desktop/docker/universe/wormhole:/proj/
     working_dir: /proj/
     image: openjdk
     command: java -jar ser.jar --spring.config.location=optional:classpath:/,optional:classpath:/config/,optional:file:./,optional:file:./config/
-    depends_on: 
+    depends_on:
       - redis
+
+  milkyway:
+    container_name: milkyway
+    ports:
+      - 60001:8906
+    networks:
+      - galaxy
+    volumes:
+      - ~/Desktop/docker/universe/milkyway:/proj/
+    working_dir: /proj/
+    image: openjdk
+    command: java -jar ser.jar --spring.config.location=optional:classpath:/,optional:classpath:/config/,optional:file:./,optional:file:./config/
+    depends_on:
+      - redis
+
   andromeda:
     container_name: andromeda
-    ports: 
+    ports:
       - 60002:8906
-    volumes: 
-      - ~/Desktop/docker/universe/andromeda:/proj
+    networks:
+      - galaxy
+    volumes:
+      - ~/Desktop/docker/universe/andromeda:/proj/
     working_dir: /proj/
     image: openjdk
     command: java -jar ser.jar --spring.config.location=optional:classpath:/,optional:classpath:/config/,optional:file:./,optional:file:./config/
-    depends_on: 
+    depends_on:
       - redis
+
+  triangulum:
+    container_name: triangulum
+    ports:
+      - 60003:8906
+    networks:
+      - galaxy
+    volumes:
+      - ~/Desktop/docker/universe/triangulum:/proj/
+    working_dir: /proj/
+    image: openjdk
+    command: java -jar ser.jar --spring.config.location=optional:classpath:/,optional:classpath:/config/,optional:file:./,optional:file:./config/
+  mothallah:
+    container_name: mothallah
+    ports:
+      - 60004:80
+    networks:
+      - galaxy
+    volumes:
+      - ~/Desktop/docker/universe/triangulum/upload/:/proj/upload/
+      - ~/Desktop/docker/universe/mothallah/default.conf:/etc/nginx/conf.d/default.conf
+    image: nginx
+
+  carina:
+    container_name: carina
+    ports:
+      - 60006:8906
+    networks:
+      - galaxy
+    volumes:
+      - ~/Desktop/docker/universe/carina:/proj/
+    working_dir: /proj/
+    image: openjdk
+    command: java -jar ser.jar --spring.config.location=optional:classpath:/,optional:classpath:/config/,optional:file:./,optional:file:./config/
+    depends_on:
+      - redis
+
   pgsql:
     container_name: pgsql
-    ports: 
+    ports:
       - 5432:5432
-    volumes: 
+    networks:
+      - galaxy
+    volumes:
       - ~/Desktop/docker/pgsql/data:/var/lib/postgresql/data
-    environment: 
+    environment:
       - POSTGRES_PASSWORD=123456
     image: postgres
-  redis: 
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 200M
+  redis:
     container_name: redis
-    ports: 
+    ports:
       - 6379:6379
+    networks:
+      - galaxy
     image: redis
 
+  pisces:
+    container_name: pisces
+    ports:
+      - 61002:80
+    volumes:
+      - ~/Desktop/docker/universe/pisces/dist/:/usr/share/nginx/html/
+      - ~/Desktop/docker/universe/pisces/default.conf:/etc/nginx/conf.d/default.conf
+    image: nginx
+    networks:
+      - constellation
+
+  # swag:
+  #   container_name: swag
+  #   cap_add:
+  #     - NET_ADMIN
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Europe/London
+  #     # - URL=chengweiou.tk
+  #     - URL=chengweiou.ml
+  #     - VALIDATION=http
+  #     - SUBDOMAINS=www,pisces #optional
+  #     # - CERTPROVIDER= #optional
+  #     # - DNSPLUGIN=cloudflare #optional
+  #     # - PROPAGATION= #optional
+  #     # - DUCKDNSTOKEN= #optional
+  #     # - EMAIL= #optional
+  #     # - ONLY_SUBDOMAINS=false #optional
+  #     # - EXTRA_DOMAINS= #optional
+  #     # - STAGING=true #optional
+  #     # - MAXMINDDB_LICENSE_KEY= #optional
+  #   volumes:
+  #     - ~/Desktop/docker/swag/config/universe.subfolder.conf:/config/nginx/proxy-confs/universe.subfolder.conf
+  #     - ~/Desktop/docker/swag/config/universe.subdomain.conf:/config/nginx/proxy-confs/universe.subdomain.conf
+  #     - ~/Desktop/docker/swag/config:/config
+  #   ports:
+  #     - 443:443
+  #     - 80:80 #optional
+  #   networks:
+  #     - galaxy
+  #     - constellation
+  #   restart: unless-stopped
+  #   image: linuxserver/swag
+
+  # pgadmin:
+  #   container_name: pgadmin
+  #   ports:
+  #     - 5433:80
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: chengweiou@pgadmin.com
+  #     PGADMIN_DEFAULT_PASSWORD: aaa
+  #   image: dpage/pgadmin4
+
+networks:
+  galaxy:
+  constellation:

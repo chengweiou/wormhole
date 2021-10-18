@@ -24,6 +24,42 @@ spring:
         - Path=/wormhole/andromeda/**
         filters:
         - RewritePath=/wormhole/andromeda/(?<RID>.*), /andromeda/$\{RID}
+      - id: milkywayRoute
+        uri: http://milkyway:8906/
+        predicates:
+        - Path=/wormhole/milkyway/**
+        filters:
+        - RewritePath=/wormhole/milkyway/(?<RID>.*), /milkyway/$\{RID}
+      - id: triangulumRoute
+        uri: http://triangulum:8906/
+        predicates:
+        - Path=/wormhole/triangulum/**
+        filters:
+        - RewritePath=/wormhole/triangulum/(?<RID>.*), /triangulum/$\{RID}
+      - id: mothallahRoute
+        uri: http://mothallah:80/
+        predicates:
+        - Path=/wormhole/mothallah/**
+        filters:
+        - RewritePath=/wormhole/mothallah/(?<RID>.*), /mothallah/$\{RID}
+      - id: leobRoute
+        uri: http://leob:8906/
+        predicates:
+        - Path=/wormhole/leob/**
+        filters:
+        - RewritePath=/wormhole/leob/(?<RID>.*), /leob/$\{RID}
+      - id: carinaRoute
+        uri: http://carina:8906/
+        predicates:
+        - Path=/wormhole/carina/**
+        filters:
+        - RewritePath=/wormhole/carina/(?<RID>.*), /carina/$\{RID}
+      - id: carinaWsRoute
+        uri: ws://carina:8906/
+        predicates:
+        - Path=/wormhole/carina/**
+        filters:
+        - RewritePath=/wormhole/carina/(?<RID>.*), /carina/$\{RID}
 
   datasource:
     url: jdbc:postgresql://pgsql/universe?currentSchema=wormhole

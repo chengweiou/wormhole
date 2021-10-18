@@ -33,10 +33,10 @@ public class ReqRecordFilter implements GlobalFilter {
             .set("duration", 0)
             .set("os", userAgent.getOperatingSystem().getName())
             .set("device", userAgent.getOperatingSystem().getDeviceType().toString())
-            .set("browser", userAgent.getBrowser().getName() + " " + userAgent.getBrowserVersion().getVersion())
+            .set("browser", userAgent.getBrowser().getName() + " " + userAgent.getBrowserVersion()==null ? userAgent.getBrowserVersion().getVersion():"")
             .set("status", exchange.getResponse().getRawStatusCode())
             .to(new ReqRecord());
-        
+
         long startTime = LocalDateTime.now().toInstant(ZoneOffset.of("Z")).toEpochMilli();
         return chain.filter(exchange).then(Mono.fromRunnable(() -> {
             long duration = LocalDateTime.now().toInstant(ZoneOffset.of("Z")).toEpochMilli() - startTime;
