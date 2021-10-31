@@ -9,7 +9,7 @@ services:
       - ~/Desktop/docker/universe/wormhole:/proj/
     working_dir: /proj/
     image: openjdk
-    command: java -jar ser.jar --spring.config.location=optional:classpath:/,optional:classpath:/config/,optional:file:./,optional:file:./config/
+    command: java -jar ser.jar
     depends_on:
       - redis
 
@@ -23,7 +23,7 @@ services:
       - ~/Desktop/docker/universe/milkyway:/proj/
     working_dir: /proj/
     image: openjdk
-    command: java -jar ser.jar --spring.config.location=optional:classpath:/,optional:classpath:/config/,optional:file:./,optional:file:./config/
+    command: java -jar ser.jar
     depends_on:
       - redis
 
@@ -37,7 +37,7 @@ services:
       - ~/Desktop/docker/universe/andromeda:/proj/
     working_dir: /proj/
     image: openjdk
-    command: java -jar ser.jar --spring.config.location=optional:classpath:/,optional:classpath:/config/,optional:file:./,optional:file:./config/
+    command: java -jar ser.jar
     depends_on:
       - redis
 
@@ -51,7 +51,7 @@ services:
       - ~/Desktop/docker/universe/triangulum:/proj/
     working_dir: /proj/
     image: openjdk
-    command: java -jar ser.jar --spring.config.location=optional:classpath:/,optional:classpath:/config/,optional:file:./,optional:file:./config/
+    command: java -jar ser.jar
   mothallah:
     container_name: mothallah
     ports:
@@ -73,7 +73,7 @@ services:
       - ~/Desktop/docker/universe/carina:/proj/
     working_dir: /proj/
     image: openjdk
-    command: java -jar ser.jar --spring.config.location=optional:classpath:/,optional:classpath:/config/,optional:file:./,optional:file:./config/
+    command: java -jar ser.jar
     depends_on:
       - redis
 
