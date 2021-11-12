@@ -3,8 +3,7 @@ package chengweiou.universe.wormhole.base.jwt;
 import java.io.IOException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
@@ -29,14 +28,13 @@ public class JwtUtil {
     @Autowired
     private JwtConfig config;
 
-
     public String sign(Account account) {
         Algorithm algorithm = useRsa ? Algorithm.RSA256(rsaPublicKey, rsaPrivateKey) : Algorithm.HMAC512(config.getSign());
         return sign(account, algorithm);
     }
     private String sign(Account account, Algorithm algorithm) {
         try {
-            Date expiresAt = Date.from(LocalDateTime.now(ZoneId.of("UTC")).plus(config.getExpMinute(), ChronoUnit.MINUTES).atZone(ZoneId.of("UTC")).toInstant());
+            Date expiresAt = Date.from(Instant.now().plus(config.getExpMinute(), ChronoUnit.MINUTES));
             return JWT.create()
                 .withIssuer(config.getIssuer())
                 .withClaim("personId", account.getPerson().getId())

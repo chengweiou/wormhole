@@ -1,7 +1,6 @@
 package chengweiou.universe.wormhole.base.filter;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.Instant;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +36,9 @@ public class ReqRecordFilter implements GlobalFilter {
             .set("status", exchange.getResponse().getRawStatusCode())
             .to(new ReqRecord());
 
-        long startTime = LocalDateTime.now().toInstant(ZoneOffset.of("Z")).toEpochMilli();
+        long startTime = Instant.now().toEpochMilli();
         return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-            long duration = LocalDateTime.now().toInstant(ZoneOffset.of("Z")).toEpochMilli() - startTime;
+            long duration = Instant.now().toEpochMilli() - startTime;
             e.setDuration(duration);
             task.save(e);
         }));

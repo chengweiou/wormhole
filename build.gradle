@@ -30,16 +30,16 @@ ext {
 }
 
 dependencies {
-	implementation 'com.auth0:java-jwt:3.16.0'
+	implementation 'com.auth0:java-jwt:3.18.2'
 	implementation 'org.bouncycastle:bcprov-jdk15on:1.69'
-	implementation 'redis.clients:jedis:3.6.0'
+	implementation 'redis.clients:jedis:3.7.0'
 	implementation 'eu.bitwalker:UserAgentUtils:1.21'
 	implementation 'org.springframework.security:spring-security-crypto:5.5.3'
 
-	implementation 'chengweiou.universe:blackhole:0.0.42'
+	implementation 'chengweiou.universe:blackhole:0.0.44'
 	implementation 'com.google.code.gson:gson:2.8.9'
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
-		// for log4j2 yml
+	// for log4j2 yml
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.3'
 

@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 public class Person implements NotNullObj, Serializable {
-    private String id;
+    private Long id;
     public static final Person NULL = new Person.Null();
     public static class Null extends Person implements NullObj {
     }

@@ -10,7 +10,7 @@ CREATE TABLE reqRecord (
    device character varying NOT NULL,
    browser character varying NOT NULL,
    status character varying NOT NULL,
-   createAt timestamp without time zone NOT NULL,
-   updateAt timestamp without time zone NOT NULL,
+   createAt timestamp with time zone NOT NULL,
+   updateAt timestamp with time zone NOT NULL,
    PRIMARY KEY (id)
 );

@@ -2,8 +2,7 @@ package chengweiou.universe.wormhole.base.jwt;
 
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,20 +21,20 @@ public class Account implements NotNullObj, Serializable {
     private Person person;
     private Boolean active;
     private String extra;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private Instant createAt;
+    private Instant updateAt;
     public void fillNotRequire() {
         type = type!=null ? type : AccountType.NORMAL;
         active = active!=null ? active : person != null;
-        person = person!=null ? person : Builder.set("id", "0").to(new Person());
+        person = person!=null ? person : Builder.set("id", 0).to(new Person());
         extra = extra!=null ? extra : "";
     }
 
     public void createAt() {
-        createAt = LocalDateTime.now(ZoneId.of("UTC"));
+        createAt = Instant.now();
     }
     public void updateAt() {
-        updateAt = LocalDateTime.now(ZoneId.of("UTC"));
+        updateAt = Instant.now();
     }
 
     public static final Account NULL = new Null();
