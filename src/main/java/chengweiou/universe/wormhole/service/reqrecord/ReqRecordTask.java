@@ -13,7 +13,7 @@ import chengweiou.universe.wormhole.model.entity.ReqRecord;
 @Component
 public class ReqRecordTask {
     @Autowired
-    private ReqRecordService service;
+    private ReqRecordDio dio;
     // @Autowired
     // private UserAgentUtil userAgentUtil;
     // @Autowired
@@ -22,7 +22,7 @@ public class ReqRecordTask {
     @Async
     public Future<Boolean> save(ReqRecord e) {
         try {
-            service.save(e);
+            dio.save(e);
             return new AsyncResult<>(true);
         } catch (FailException ex) {
             return new AsyncResult<>(false);

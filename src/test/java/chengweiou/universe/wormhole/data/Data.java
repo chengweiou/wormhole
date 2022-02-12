@@ -3,7 +3,6 @@ package chengweiou.universe.wormhole.data;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +19,6 @@ public class Data {
     public List<ReqRecord> reqRecordList;
 
     public void init() {
-        reqRecordList = reqRecordDio.find(new SearchCondition(), null).stream().sorted(Comparator.comparingLong(ReqRecord::getId)).collect(Collectors.toList());
+        reqRecordList = reqRecordDio.find(new SearchCondition(), null).stream().sorted(Comparator.comparingLong(ReqRecord::getId)).toList();
     }
 }
