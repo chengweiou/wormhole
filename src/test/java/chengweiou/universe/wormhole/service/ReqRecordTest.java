@@ -34,7 +34,7 @@ public class ReqRecordTest {
 	}
 
 	@Test
-	public void update() {
+	public void update() throws FailException {
 		ReqRecord e = Builder.set("id", data.reqRecordList.get(0).getId()).set("os", "windows").to(new ReqRecord());
 		long count = dio.update(e);
 		Assertions.assertEquals(1, count);
