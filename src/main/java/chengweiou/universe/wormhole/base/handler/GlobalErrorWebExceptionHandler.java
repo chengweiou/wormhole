@@ -13,21 +13,22 @@ import org.springframework.web.server.ServerWebExchange;
 import chengweiou.universe.blackhole.model.BasicRestCode;
 import chengweiou.universe.blackhole.model.Rest;
 import chengweiou.universe.blackhole.util.GsonUtil;
-import chengweiou.universe.blackhole.util.LogUtil;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @Component
 @Order(-2)
+@Slf4j
 public class GlobalErrorWebExceptionHandler implements ErrorWebExceptionHandler {
 
   @Override
   public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
     ServerHttpResponse response = exchange.getResponse();
     Rest rest = Rest.fail(BasicRestCode.FAIL);
-    String msg = (ex instanceof ResponseStatusException) ? ((ResponseStatusException) ex).getStatus().toString() + " " + ex.getMessage() : ex.getMessage();
+    String msg = (ex instanceof ResponseStatusException) ? ((ResponseStatusException) ex).getStatusCode().toString() + " " + ex.getMessage() : ex.getMessage();
     rest.setMessage(msg);
     String body = GsonUtil.create().toJson(rest);
-    LogUtil.e(msg, ex);
+    log.error(msg, ex);
     DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(StandardCharsets.UTF_8));
     return exchange.getResponse().writeWith(Mono.just(buffer));
   }

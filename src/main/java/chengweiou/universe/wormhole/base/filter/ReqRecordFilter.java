@@ -1,6 +1,7 @@
 package chengweiou.universe.wormhole.base.filter;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,18 @@ public class ReqRecordFilter implements GlobalFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest from = exchange.getRequest();
-        UserAgent userAgent = UserAgent.parseUserAgentString(from.getHeaders().get("User-Agent").stream().collect(Collectors.joining(",")));
+        List<String> userAgentStringList = from.getHeaders().containsKey("User-Agent") ? from.getHeaders().get("User-Agent") : List.of();
+        String ip = from.getRemoteAddress() != null ? from.getRemoteAddress().getAddress().getHostAddress() : "not found";
+        UserAgent userAgent = UserAgent.parseUserAgentString(userAgentStringList.stream().collect(Collectors.joining(",")));
         // todo exception那边放一个
         ReqRecord e = Builder
-            .set("url", from.getMethodValue() + " "+ from.getPath())
-            .set("ip", from.getRemoteAddress().getAddress().getHostAddress())
+            .set("url", from.getMethod() + " "+ from.getPath())
+            .set("ip", ip)
             .set("duration", 0)
             .set("os", userAgent.getOperatingSystem().getName())
             .set("device", userAgent.getOperatingSystem().getDeviceType().toString())
             .set("browser", userAgent.getBrowser().getName() + " " + userAgent.getBrowserVersion()==null ? userAgent.getBrowserVersion().getVersion():"")
-            .set("status", exchange.getResponse().getRawStatusCode())
+            .set("status", exchange.getResponse().getStatusCode())
             .to(new ReqRecord());
 
         long startTime = Instant.now().toEpochMilli();

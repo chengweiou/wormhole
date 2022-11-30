@@ -8,12 +8,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
 import chengweiou.universe.blackhole.util.GsonUtil;
-import chengweiou.universe.blackhole.util.LogUtil;
 import chengweiou.universe.wormhole.base.jwt.Account;
 import chengweiou.universe.wormhole.base.jwt.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @Component
+@Slf4j
 public class AuthFilter implements GlobalFilter {
     @Autowired
     private JwtUtil jwtUtil;
@@ -30,7 +31,7 @@ public class AuthFilter implements GlobalFilter {
                 token = authorization.substring("Bearer ".length());
                 loginAccount = jwtUtil.verify(token);
             } catch (Exception e) {
-                LogUtil.i("try to use unauth token: " + token);
+                log.info("try to use unauth token: " + token);
             }
 
             if (loginAccount != null) {

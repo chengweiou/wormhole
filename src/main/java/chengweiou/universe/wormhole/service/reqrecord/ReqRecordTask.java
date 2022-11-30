@@ -1,10 +1,9 @@
 package chengweiou.universe.wormhole.service.reqrecord;
 
-import java.util.concurrent.Future;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
 import chengweiou.universe.blackhole.exception.FailException;
@@ -20,12 +19,12 @@ public class ReqRecordTask {
     // private JwtUtil jwtUtil;
 
     @Async
-    public Future<Boolean> save(ReqRecord e) {
+    public CompletableFuture<Boolean> save(ReqRecord e) {
         try {
             dio.save(e);
-            return new AsyncResult<>(true);
+            return CompletableFuture.completedFuture(true);
         } catch (FailException ex) {
-            return new AsyncResult<>(false);
+            return CompletableFuture.completedFuture(false);
         }
     }
 
